@@ -16,11 +16,11 @@ const config = {
     host: 'ep-cold-night-344467.eu-central-1.aws.neon.tech',
     database: 'neondb',
     password: 'WcfJxVw2iu7P',
-    port: 5432,
-    ssl: true,
-    sslOptions: {
-        rejectUnauthorized: false // Для самоподписанных сертификатов
-    }
+    // port: 5432,
+    // ssl: true,
+    // sslOptions: {
+    //     rejectUnauthorized: false // Для самоподписанных сертификатов
+    // }
 };
 
 async function get_fising_places(p_type, p_basesOnly) {
