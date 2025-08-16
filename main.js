@@ -29,7 +29,7 @@ async function get_fising_places(p_type, p_basesOnly) {
     try {
         // Получение табличных данных
         const fishingplaces = await db.query(`select * from get_places(${p_type}, ${p_basesOnly});`);     //WHERE is_base = $1', [true]
-        console.log('Bases: \n', fishingplaces);
+        // console.log('Bases: \n', fishingplaces);
         return fishingplaces;
 
         // // Получение одной строки
