@@ -17,10 +17,10 @@ const config = {
     database: 'neondb',
     password: 'WcfJxVw2iu7P',
     // port: 5432,
-    // ssl: true,
-    // sslOptions: {
-    //     rejectUnauthorized: false // Для самоподписанных сертификатов
-    // }
+    ssl: true,
+    sslOptions: {
+        rejectUnauthorized: false // Для самоподписанных сертификатов
+    }
 };
 
 async function get_fising_places(p_type, p_basesOnly) {
