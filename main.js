@@ -53,21 +53,69 @@ async function get_fising_places(p_type, p_basesOnly) {
     }
 }
 
+async function add_place(
+  p_name, p_lant, p_long, p_description, p_is_base,
+  p_car_accessibility, p_bus_accessibility, p_user_id
+) 
+{
+  const db = new dba(config);
+
+  try {
+    // console.log(`select * from  public.fa_add_place('${p_name}', ${p_lant}, ${p_long}, '${p_description}', ${p_is_base}, ${p_car_accessibility}, ${p_bus_accessibility}, ${p_user_id});`);
+
+    const new_place_id = await db.queryScalar(
+      `select * from  public.fa_add_place('
+        ${p_name}', ${p_lant}, ${p_long}, '${p_description}', ${p_is_base}, 
+        ${p_car_accessibility}, ${p_bus_accessibility}, ${p_user_id});
+      `
+    );
+    console.log('Total new_place_id:', new_place_id);
+    return new_place_id;
+
+  } catch (err) {
+    console.error('Database error:', err);
+  } finally {
+    await db.close();
+  }
+}
 
 app.use(cors());
 
-app.get('/api/data', async (req, res) => {
-  // const data = [
-  //   { id: 1, name: 'John Doe' },
-  //   { id: 2, name: 'Jane Smith' },
-  //   // Add more data as needed
-  // ];
+app.get('/api/get_map_data', async (req, res) => {
     const p_type = req.query.type;
     const p_basesOnly = req.query.basesOnly;
 
     const data = await get_fising_places(p_type, p_basesOnly);
     console.log('data: ');
     // console.log(data);
+
+  res.json(data);
+});
+
+
+// http://localhost:5000/api/add_place&_name=yp1&lant%20=51.3&long=65.2&description=description1&is_base=true&car_accessibility=false&bus_accessibility=true&user_id=777
+app.get('/api/add_place', async (req, res) => {
+    const p_name = req.query._name;
+    const p_lant = req.query.lant;
+    const p_long = req.query.long;
+    const p_description = req.query.description;
+    const p_is_base = req.query.is_base;
+    const p_car_accessibility = req.query.car_accessibility;
+    const p_bus_accessibility = req.query.bus_accessibility;
+    const p_user_id = req.query.user_id; 
+
+    const data = await add_place(
+      p_name,
+      p_lant,
+      p_long,
+      p_description,
+      p_is_base,
+      p_car_accessibility,
+      p_bus_accessibility,
+      p_user_id,
+    );
+    console.log('add_place: ');
+    console.log(data);
 
   res.json(data);
 });
