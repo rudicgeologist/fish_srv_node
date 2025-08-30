@@ -12,7 +12,8 @@ const PORT = process.env.PORT || 5000;
 
 // Конфигурация подключения
 const config = {
-    user: 'deadnikifor',
+    user: process.env.DB_USER,
+    // user: 'u1',
     host: 'ep-cold-night-344467.eu-central-1.aws.neon.tech',
     database: 'neondb',
     password: 'WcfJxVw2iu7P',
