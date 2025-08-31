@@ -9,6 +9,8 @@ import dba from './db_adapter.js';
 
 
 const PORT = process.env.PORT || 5000;
+console.log(process.env.DB_USER);
+
 
 // Конфигурация подключения
 const config = {
@@ -25,6 +27,7 @@ const config = {
 };
 
 async function get_fising_places(p_type, p_basesOnly) {
+
     const db = new dba(config);
 
     try {
