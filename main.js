@@ -16,9 +16,9 @@ console.log(process.env.DB_USER);
 const config = {
     user: process.env.DB_USER, 
     // user: 'u1',
-    host: 'ep-cold-night-344467.eu-central-1.aws.neon.tech',
-    database: 'neondb',
-    password: 'WcfJxVw2iu7P',
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME, 
+    password: process.env.DB_PASSWORD, 
     // port: 5432,
     ssl: true,
     sslOptions: {
