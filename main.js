@@ -14,11 +14,18 @@ console.log(process.env.DB_USER);
 
 // Конфигурация подключения
 const config = {
-    user: process.env.DB_USER, 
-    // user: 'u1',
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME, 
-    password: process.env.DB_PASSWORD, 
+    // user: process.env.DB_USER, 
+    // host: process.env.DB_HOST,
+    // database: process.env.DB_NAME, 
+    // password: process.env.DB_PASSWORD, 
+
+    user: 'deadnikifor', 
+    host: 'ep-cold-night-344467.eu-central-1.aws.neon.tech',
+    database: 'neondb', 
+    password: 'WcfJxVw2iu7P', 
+
+
+
     // port: 5432,
     ssl: true,
     sslOptions: {
@@ -55,6 +62,29 @@ async function get_fising_places(p_type, p_basesOnly) {
     } finally {
         await db.close();
     }
+}
+
+async function get_place_details(p_id) { 
+
+  const db = new dba(config);
+
+  try {
+    const fishingplace_details = await db.query(
+      `SELECT * FROM public.fa_get_place_details(${p_id}) AS (
+          p_id integer, p_name varchar(100), p_lant numeric(10, 8), p_long numeric(10, 8), p_description text,
+          p_is_base bool, p_car_accessibility bool, p_bus_accessibility bool, p_datetime_publication timestamptz, p_user_id integer
+      );`  
+    ); 
+  return fishingplace_details;
+
+  } catch (err) {
+    console.error('Database error:', err);
+  } finally {
+    await db.close();
+  }
+
+
+
 }
 
 async function add_place(
@@ -123,6 +153,21 @@ app.get('/api/add_place', async (req, res) => {
 
   res.json(data);
 });
+
+app.get('/api/place', async (req, res) => {
+  const p_id = req.query._id;
+  console.log(`p_id^ `);
+  console.log(p_id);
+  
+
+  const data = await get_place_details(p_id);
+  console.log('get_place_details: ');
+  console.log(data);
+
+  res.json(data);
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
